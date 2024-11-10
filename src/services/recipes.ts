@@ -30,4 +30,4 @@ const recipesService = {
     }
 }
 
-console.log(recipesService.getAllRecipes());
+export default recipesService;
