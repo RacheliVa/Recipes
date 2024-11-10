@@ -20,6 +20,9 @@ export default function Home() {
 
   return (
     <div>
+      <div>
+        
+      </div>
       {recipes.map(recipes =>
         <div key={recipes.id}>
 
