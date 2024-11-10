@@ -5,9 +5,8 @@ import { getAllDocuments,connectDatabase,insertDocument,deleteDocument, getDatab
 export async function GET(request: Request)
 {
 
-    const client=await connectDatabase();
+    const client=await getDatabaseClient();
     const recipes=await getAllDocuments(client,'recipes')
-    client.close();
     return NextResponse.json({data:recipes});
 }
 
