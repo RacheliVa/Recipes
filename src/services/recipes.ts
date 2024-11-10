@@ -11,6 +11,15 @@ const recipesService = {
         }
     },
 
+    async getRecipeByCategory(categoryId : number){
+        try {
+            const response = await http.get(`/recipes?category=${categoryId}`);
+            return response.data;
+        } catch (error : any) {
+            console.error(error);
+        }
+    },
+
     async getRecipeById(id: number){
         try {
             const response = await http.get(`/recipes/${id}`);

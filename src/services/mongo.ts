@@ -34,9 +34,7 @@ export async function insertDocument(client: any, collection: string, document: 
 
 export async function getAllDocuments(client: any, collection: string) {
     const db = await client.db('Racheli');
-    console.log(collection);
     const documents = await db.collection(collection).find().toArray();
-    console.log(documents);
     return documents;
 }
 
