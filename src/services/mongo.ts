@@ -33,7 +33,7 @@ export async function insertDocument(client: any, collection: string, document: 
 }
 
 export async function getAllDocuments(client: any, collection: string) {
-    const db = client.db('racheli');
+    const db = await client.db('racheli');
     console.log(collection);
     const documents = await db.collection(collection).find().toArray();
     console.log(documents);
