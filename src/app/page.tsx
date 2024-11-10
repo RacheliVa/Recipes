@@ -1,32 +1,38 @@
 "use client"
 
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import recipesService from '@/services/recipes'
+import React, { useEffect, useState } from 'react';
+import recipesService from '@/services/recipes';
 import { Recipe } from "@/types";
 import RecipeTag from "@/components/RecipeTag/RecipeTag";
+import Categories from "@/components/Categories/Categories";
 
 export default function Home() {
-
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [category, setCategory] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await recipesService.getAllRecipes();
-      setRecipes(data);
+      if(category){
+        const data = await recipesService.getRecipeByCategory(category);
+        setRecipes(data);
+      }
+      else{
+        const data = await recipesService.getAllRecipes();
+        setRecipes(data);
+      }
     }
     fetchData();
-  }, []);
+  }, [category]);
 
   return (
     <div>
-      {recipes.map(recipes =>
-        <div key={recipes.id}>
-
-          <h2>{recipes.name}</h2>
-
-        </div>
-      )}
+      <Categories setCategory={setCategory} />
+      {recipes
+        .map(recipe => (
+          <div key={recipe.id}>
+            <h2>{recipe.name}</h2>
+          </div>
+      ))}
     </div>
   );
 }
