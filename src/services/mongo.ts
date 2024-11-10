@@ -50,7 +50,6 @@ export async function getAllDocuments(client: any, collection: string) {
  export async function updateDocument(client: any, collection: string, id: number, updatedDocument: object){
     const db = client.db('Racheli');
     console.log(id, updatedDocument);
-    
     const result = await db.collection(collection).updateOne(
         { _id: new ObjectId(id) },
         { $set: updatedDocument }
