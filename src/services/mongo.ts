@@ -14,16 +14,16 @@ export async function getDatabaseClient() {
     return cachedClient;
 }
 
-export async function connectDatabase() : Promise<MongoClient> {
-   if (!client) {
-       const dbConnectionString = process.env.PUBLIC_DB_CONNECTION;
-       if (!dbConnectionString) {
-           throw new Error('Database connection string is not defined');
-       }
-       client = new MongoClient(dbConnectionString);
-       clientPromise = client.connect();
-   }
-   return clientPromise;
+export async function connectDatabase(): Promise<MongoClient> {
+    if (!client) {
+        const dbConnectionString = process.env.PUBLIC_DB_CONNECTION;
+        if (!dbConnectionString) {
+            throw new Error('Database connection string is not defined');
+        }
+        client = new MongoClient(dbConnectionString);
+        clientPromise = client.connect();
+    }
+    return clientPromise;
 }
 
 export async function insertDocument(client: any, collection: string, document: object) {
@@ -36,16 +36,21 @@ export async function getAllDocuments(client: any, collection: string) {
     const db = await client.db('Racheli');
     const documents = await db.collection(collection).find().toArray();
     return documents;
- }
+}
 
- export async function deleteDocument(client: any, collection: string, id: number){
+export async function getDocumentById(client: any, collection: string, id: number) {
+    const db = await client.db('Racheli');
+    const document = await db.collection(collection).findOne({ _id: new ObjectId(id) });
+    return document;
+}
+
+export async function deleteDocument(client: any, collection: string, id: number) {
     const db = client.db('Racheli');
     const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
     return result;
- }
- 
+}
 
- export async function updateDocument(client: any, collection: string, id: number, updatedDocument: object){
+export async function updateDocument(client: any, collection: string, id: number, updatedDocument: object) {
     const db = client.db('Racheli');
     console.log(id, updatedDocument);
     const result = await db.collection(collection).updateOne(
@@ -53,4 +58,4 @@ export async function getAllDocuments(client: any, collection: string) {
         { $set: updatedDocument }
     );
     return result;
- }
+}
