@@ -21,12 +21,12 @@ export default function Home() {
   return (
     <div>
       <div>
-        
-      </div>
-      {recipes.map(recipes =>
-        <div key={recipes.id}>
 
-          <h2>{recipes.name}</h2>
+      </div>
+      {recipes.map(recipe =>
+        <div key={recipe.id}>
+
+          <RecipeTag recipe={recipe} />
 
         </div>
       )}
