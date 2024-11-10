@@ -27,13 +27,13 @@ export async function connectDatabase() : Promise<MongoClient> {
 }
 
 export async function insertDocument(client: any, collection: string, document: object) {
-    const db = client.db('racheli');
+    const db = client.db('Racheli');
     const result = await db.collection(collection).insertOne(document);
     return result;
 }
 
 export async function getAllDocuments(client: any, collection: string) {
-    const db = await client.db('racheli');
+    const db = await client.db('Racheli');
     console.log(collection);
     const documents = await db.collection(collection).find().toArray();
     console.log(documents);
@@ -41,14 +41,14 @@ export async function getAllDocuments(client: any, collection: string) {
  }
 
  export async function deleteDocument(client: any, collection: string, id: number){
-    const db = client.db('racheli');
+    const db = client.db('Racheli');
     const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
     return result;
  }
  
 
  export async function updateDocument(client: any, collection: string, id: number, updatedDocument: object){
-    const db = client.db('recipes');
+    const db = client.db('Racheli');
     console.log(id, updatedDocument);
     
     const result = await db.collection(collection).updateOne(
