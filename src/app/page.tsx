@@ -29,9 +29,7 @@ export default function Home() {
       <Categories setCategory={setCategory} />
       {recipes
         .map(recipe => (
-          <div key={recipe.id}>
-            <h2>{recipe.name}</h2>
-          </div>
+          <RecipeTag recipe = { recipe}/>
       ))}
     </div>
   );
