@@ -14,7 +14,6 @@ export async function getDatabaseClient() {
     return cachedClient;
 }
 
-
 export async function connectDatabase() : Promise<MongoClient> {
    if (!client) {
        const dbConnectionString = process.env.PUBLIC_DB_CONNECTION;
@@ -28,20 +27,21 @@ export async function connectDatabase() : Promise<MongoClient> {
 }
 
 export async function insertDocument(client: any, collection: string, document: object) {
-    const db = client.db('recipes');
+    const db = client.db('racheli');
     const result = await db.collection(collection).insertOne(document);
     return result;
 }
 
 export async function getAllDocuments(client: any, collection: string) {
-    const db = client.db('recipes');
+    const db = client.db('racheli');
     console.log(collection);
     const documents = await db.collection(collection).find().toArray();
+    console.log(documents);
     return documents;
  }
 
  export async function deleteDocument(client: any, collection: string, id: number){
-    const db = client.db('recipes');
+    const db = client.db('racheli');
     const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
     return result;
  }
