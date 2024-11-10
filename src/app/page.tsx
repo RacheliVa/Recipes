@@ -26,13 +26,14 @@ export default function Home() {
 
   return (
     <div>
-      <Categories setCategory={setCategory} />
-      {recipes
-        .map(recipe => (
-          <div key={recipe.id}>
-            <h2>{recipe.name}</h2>
-          </div>
-      ))}
-    </div>
+      <div>
+      {recipes.map(recipe =>
+        <div key={recipe._id}>
+
+          <RecipeTag recipe={recipe} />
+
+        </div>
+      )}
+      </div>
   );
 }
