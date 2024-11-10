@@ -24,7 +24,7 @@ export default function Home() {
 
       </div>
       {recipes.map(recipe =>
-        <div key={recipe.id}>
+        <div key={recipe._id}>
 
           <RecipeTag recipe={recipe} />
 
