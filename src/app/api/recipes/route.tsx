@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllDocuments,connectDatabase,insertDocument,deleteDocument, getDatabaseClient } from "@/services/mongo";
+import { getAllDocuments,insertDocument,deleteDocument, getDatabaseClient } from "@/services/mongo";
 
 
 export async function GET(request: Request)
