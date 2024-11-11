@@ -1,4 +1,4 @@
-"use client"
+/* "use client"
 
 import React from 'react';
 import styles from './recipeDetails.module.css';
@@ -28,3 +28,18 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe }) => {
 };
 
 export default RecipeDetails;
+ */
+
+// app/recipes/[id]/page.tsx
+
+import RecipeDetails from './recipeDetails';
+
+const RecipePage = () => {
+    return (
+        <div>
+            <RecipeDetails />
+        </div>
+    );
+};
+
+export default RecipePage;
