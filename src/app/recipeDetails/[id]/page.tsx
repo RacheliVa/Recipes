@@ -1,45 +1,71 @@
-/* "use client"
+"use client";
+import React, { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import styles from "../recipeDetails.module.css";
+import recipesService from "@/services/recipes";
+import { Recipe } from "@/types";
 
-import React from 'react';
-import styles from './recipeDetails.module.css';
+const RecipeDetails: React.FC = () => {
+    const pathname = usePathname();
+    const id = pathname?.split("/").pop();
 
-interface Recipe {
-    title: string;
-    ingredients: string;
-    preparationTime: number;
-    image: string;
-}
+    const [recipe, setRecipe] = useState<Recipe | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-interface RecipeDetailsProps {
-    recipe: Recipe;
-}
+    useEffect(() => {
+        if (!id) return;
 
-const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe }) => {
+        const fetchRecipe = async () => {
+            setLoading(true);
+            try {
+                const recipeData = await recipesService.getRecipeById(id);
+                setRecipe(recipeData.data);
+                setLoading(false);
+            } catch (err: any) {
+                setError("Failed to fetch recipe.");
+                setLoading(false);
+            }
+        };
+
+        fetchRecipe();
+    }, [id]);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
+    if (!recipe) return <p>No recipe found.</p>;
+
     return (
         <div className={styles.recipeDetails}>
-            <img src={recipe.image} alt={recipe.title} className={styles.recipeImage} />
-            <div className={styles.recipeInfo}>
-                <h2 className={styles.recipeTitle}>{recipe.title}</h2>
-                <p className={styles.ingredients}><strong>Ingredients:</strong> {recipe.ingredients}</p>
-                <p className={styles.preparationTime}><strong>Preparation Time:</strong> {recipe.preparationTime} minutes</p>
+            <div className={styles.recipeProfile}>
+                <img
+                    src={recipe.image_url}
+                    alt={recipe.name}
+                    className={styles.recipeImage}
+                />
+                <div className={styles.recipeTitle}>
+                    <h1 className={styles.recipeName}>{recipe.name}</h1>
+
+                    <h2 className={styles.recipeCategory}>{recipe.category}</h2>
+
+                    <p className={styles.ingredients}>
+                        <strong>Ingredients:</strong>
+                        {recipe.ingredients.map((ingredient, index) => (
+                            <span key={index}>
+                                <br />
+                                {ingredient}
+                            </span>
+                        ))}
+                    </p>
+                </div>
+
             </div>
+            <p className={styles.instructions}>
+                <strong>Instructions:</strong>
+                <br /> {recipe.instructions}{" "}
+            </p>
         </div>
     );
 };
 
 export default RecipeDetails;
- */
-
-// app/recipes/[id]/page.tsx
-"use client"
-import RecipeDetails from './recipeDetails';
-
-const RecipePage = () => {
-    return (
-        <div>
-            <RecipeDetails />
-        </div>
-    );
-};
-
-export default RecipePage;
