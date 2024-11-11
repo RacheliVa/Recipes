@@ -5,6 +5,7 @@ import recipesService from '@/services/recipes';
 import { Recipe } from "@/types";
 import RecipeTag from "@/components/RecipeTag/RecipeTag";
 import Categories from "@/components/Categories/Categories";
+import styles from './home.module.css'
 
 export default function Home() {
 
@@ -15,15 +16,26 @@ export default function Home() {
 
   const [category, setCategory] = useState<number>(0);
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     const fetchData = async () => {
-      if (category) {
-        const data = await recipesService.getRecipeByCategory(category);
-        setRecipes(data);
+      try {
+        if (category) {
+          const data = await recipesService.getRecipeByCategory(category);
+          setRecipes(data);
+        }
+        else {
+          const data = await recipesService.getAllRecipes();
+          setRecipes(data);
+        }
       }
-      else {
-        const data = await recipesService.getAllRecipes();
-        setRecipes(data);
+      catch (err) {
+        console.error(err);
+        setRecipes([]);
+      }
+      finally {
+        setIsLoading(false);
       }
     }
     fetchData();
@@ -48,13 +60,14 @@ export default function Home() {
         type="text"
         placeholder="Search..."
         value={filterInput}
-        onChange={e => setFilterInput(e.target.value)}/>
-      <div>
-      {filteredRecipes
-        .map(recipe => (
-          <RecipeTag recipe={recipe} />
-        ))}
-      </div>
+        onChange={e => setFilterInput(e.target.value)} />
+      {!isLoading && <div className={styles.recipesList}>
+        {filteredRecipes
+          .map(recipe => (
+            <RecipeTag recipe={recipe} />
+          ))}
+      </div>}
+      {isLoading && <div>Loading...</div>}
     </div>
   );
 }
