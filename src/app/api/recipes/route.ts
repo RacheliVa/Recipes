@@ -23,7 +23,6 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const client = await getDatabaseClient();
-
   try {
     const newRecipe = await request.json();
     const insertedRecipeId = await insertDocument(client, 'recipes', newRecipe);
@@ -40,12 +39,12 @@ export async function DELETE(request: Request) {
   const idParam = searchParams.get('id');
   if (!idParam) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
 
-  const id = parseInt(idParam, 10);
-  if (isNaN(id)) {
-    return NextResponse.json({ message: 'Recipe ID must be a valid number' }, { status: 400 });
-  }
+  // const id = parseInt(idParam, 10);
+  // if (isNaN(id)) {
+  //   return NextResponse.json({ message: 'Recipe ID must be a valid number' }, { status: 400 });
+  // }
   const client = await getDatabaseClient();
-  const result = await deleteDocument(client, 'recipes', id);
+  const result = await deleteDocument(client, 'recipes', idParam);
 
   return NextResponse.json({ message: 'Recipe deleted successfully', result });
 }
