@@ -23,7 +23,7 @@ const recipeSchema = z.object({
     instructions: z.string().min(1, "Instructions are required"),
 });
 
-const CreateRecipe = () => {
+const add_recipe = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Recipe>({
         resolver: zodResolver(recipeSchema),
     });
@@ -85,4 +85,4 @@ const CreateRecipe = () => {
     );
 };
 
-export default CreateRecipe;
+export default add_recipe;
