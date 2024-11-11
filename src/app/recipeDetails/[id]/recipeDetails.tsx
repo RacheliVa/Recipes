@@ -1,6 +1,7 @@
+"use client"
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import styles from './recipeDetails.module.css';
+import { usePathname } from 'next/navigation';
+import styles from '../recipeDetails.module.css';
 import  recipesService  from '@/services/recipes'
 
 interface Recipe {
@@ -11,8 +12,9 @@ interface Recipe {
 }
 
 const RecipeDetails: React.FC = () => {
-    const router = useRouter();
-    const { id } = router.query;  
+    const pathname = usePathname();
+    const id = pathname?.split('/').pop();
+    
     const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -23,7 +25,7 @@ const RecipeDetails: React.FC = () => {
         const fetchRecipe = async () => {
             setLoading(true);
             try {
-                const recipeData = await recipesService.getRecipeById(Number(id));
+                const recipeData = await recipesService.getRecipeById(id);
                 setRecipe(recipeData);
                 setLoading(false);
             } catch (err: any) {

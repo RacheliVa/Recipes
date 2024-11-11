@@ -20,7 +20,7 @@ const recipesService = {
         }
     },
 
-    async getRecipeById(id: number){
+    async getRecipeById(id: string){
         try {
             const response = await http.get(`/recipes/${id}`);
             return response.data;

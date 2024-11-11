@@ -31,7 +31,7 @@ export default RecipeDetails;
  */
 
 // app/recipes/[id]/page.tsx
-
+"use client"
 import RecipeDetails from './recipeDetails';
 
 const RecipePage = () => {

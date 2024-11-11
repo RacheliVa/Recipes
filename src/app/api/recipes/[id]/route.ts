@@ -4,14 +4,10 @@ import { getDocumentById, getDatabaseClient }  from "@/services/mongo"
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     const client = await getDatabaseClient();
-    const idParam = params.id;
+    const id = params.id;
 
-    if (!idParam) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
+    if (!id) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
 
-  const id = parseInt(idParam, 10);
-  if (isNaN(id)) {
-    return NextResponse.json({ message: 'Recipe ID must be a valid number' }, { status: 400 });
-  }
 
     const document = await getDocumentById(client, 'recipes', id);
 

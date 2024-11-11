@@ -32,19 +32,19 @@ export async function getAllDocuments(client: any, collection: string) {
     return documents;
 }
 
-export async function getDocumentById(client: any, collection: string, id: number) {
+export async function getDocumentById(client: any, collection: string, id: string) {
     const db = await client.db('Racheli');
     const document = await db.collection(collection).findOne({ _id: new ObjectId(id) });
     return document;
 }
 
-export async function deleteDocument(client: any, collection: string, id: number) {
+export async function deleteDocument(client: any, collection: string, id: string) {
     const db = client.db('Racheli');
     const result = await db.collection(collection).deleteOne({ _id: new ObjectId(id) });
     return result;
 }
 
-export async function updateDocument(client: any, collection: string, id: number, updatedDocument: object) {
+export async function updateDocument(client: any, collection: string, id: string, updatedDocument: object) {
     const db = client.db('Racheli');
     console.log(id, updatedDocument);
     const result = await db.collection(collection).updateOne(
