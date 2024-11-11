@@ -5,18 +5,18 @@ import recipesService from '@/services/recipes';
 import { Recipe } from "@/types";
 import RecipeTag from "@/components/RecipeTag/RecipeTag";
 import Categories from "@/components/Categories/Categories";
-import styles from './home.module.css'
+import styles from './home.module.css';
+import RecipePopup from '@/components/RecipePopup/RecipePopup';
 
 export default function Home() {
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
-
   const [filterInput, setFilterInput] = useState<string>('');
-
   const [category, setCategory] = useState<number>(0);
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showRecipePopup, setShowRecipePopup] = useState<boolean>(false);
+  const [recipePopupDetails, setRecipePopupDetails] = useState<Recipe>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +44,8 @@ export default function Home() {
   useEffect(() => {
     const filterData = async () => {
       if (filterInput) {
-        setFilteredRecipes(recipes.filter(r => r.name.toLocaleLowerCase().includes(filterInput.toLocaleLowerCase())));
+        setFilteredRecipes(recipes.filter(r => r.name.toLocaleLowerCase()
+        .includes(filterInput.toLocaleLowerCase())));
       }
       else {
         setFilteredRecipes(recipes);
@@ -52,6 +53,11 @@ export default function Home() {
     }
     filterData();
   }, [recipes, filterInput]);
+
+  const showRecipePopupF = (recipe : Recipe) =>{
+    setRecipePopupDetails(recipe);
+    setShowRecipePopup(true);
+  }
 
   return (
     <div>
@@ -64,12 +70,14 @@ export default function Home() {
       {!isLoading && <div className={styles.recipesList}>
         {filteredRecipes
           .map(recipe => (
-            <RecipeTag recipe={recipe} />
+            <RecipeTag key={recipe._id} showRecipePopup ={showRecipePopupF} recipe={recipe} />
           ))}
       </div>}
       {isLoading && <div>Loading...</div>}
+      {showRecipePopup && recipePopupDetails && <RecipePopup recipe={recipePopupDetails} />}
     </div>
   );
+
 }
 
 
