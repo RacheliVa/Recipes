@@ -14,17 +14,11 @@ export async function getDatabaseClient() {
     return cachedClient;
 }
 
-export async function connectDatabase(): Promise<MongoClient> {
-    if (!client) {
-        const dbConnectionString = process.env.PUBLIC_DB_CONNECTION;
-        if (!dbConnectionString) {
-            throw new Error('Database connection string is not defined');
-        }
-        client = new MongoClient(dbConnectionString);
-        clientPromise = client.connect();
-    }
-    return clientPromise;
+export async function connectDatabase() {
+    const dbConnection: any = process.env.PUBLIC_DB_CONNECTION;
+    return await MongoClient.connect(dbConnection);
 }
+
 
 export async function insertDocument(client: any, collection: string, document: object) {
     const db = client.db('Racheli');
@@ -34,9 +28,7 @@ export async function insertDocument(client: any, collection: string, document: 
 
 export async function getAllDocuments(client: any, collection: string) {
     const db = await client.db('Racheli');
-    console.log(collection);
     const documents = await db.collection(collection).find().toArray();
-    console.log(documents);
     return documents;
 }
 

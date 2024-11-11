@@ -1,11 +1,24 @@
 import { NextResponse } from "next/server";
 import { getAllDocuments, insertDocument, deleteDocument, getDatabaseClient } from "@/services/mongo";
+import { Recipe } from "@/types";
 
 
 export async function GET(request: Request) {
-  const client = await getDatabaseClient();
-  const recipes = await getAllDocuments(client, 'recipes')
-  return NextResponse.json(recipes);
+  try {
+    const url = new URL(request.url);
+    const categoryParam = url.searchParams.get('category');
+    const category = categoryParam ? parseInt(categoryParam) : null;
+    const client = await getDatabaseClient();
+    let recipes: Recipe[] = await getAllDocuments(client, 'recipes');
+    if (category) {
+      recipes = recipes.filter(recipe => recipe.category === category);
+    }
+    return NextResponse.json(recipes);
+  }
+  catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to get documents' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
