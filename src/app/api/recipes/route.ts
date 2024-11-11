@@ -45,7 +45,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ message: 'Recipe ID must be a valid number' }, { status: 400 });
   }
   const client = await getDatabaseClient();
-  const result = await deleteDocument(client, 'recipes', id);
+  const result = await deleteDocument(client, 'recipes', idParam);
 
   return NextResponse.json({ message: 'Recipe deleted successfully', result });
 }

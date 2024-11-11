@@ -35,6 +35,7 @@ export default RecipeDetails;
 import RecipeDetails from './recipeDetails';
 
 const RecipePage = () => {
+    
     return (
         <div>
             <RecipeDetails />
