@@ -37,13 +37,10 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const { searchParams } = new URL(request.url);
-  const idParam = searchParams.get('id');
-  if (!idParam) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
+  const id = searchParams.get('id');
+  if (!id) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
 
-  const id = parseInt(idParam, 10);
-  if (isNaN(id)) {
-    return NextResponse.json({ message: 'Recipe ID must be a valid number' }, { status: 400 });
-  }
+ 
   const client = await getDatabaseClient();
   const result = await deleteDocument(client, 'recipes', id);
 
