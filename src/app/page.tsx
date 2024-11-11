@@ -48,12 +48,12 @@ export default function Home() {
         type="text"
         placeholder="Search..."
         value={filterInput}
-        onChange={e => setFilterInput(e.target.value)}/>
+        onChange={e => setFilterInput(e.target.value)} />
       <div>
-      {filteredRecipes
-        .map(recipe => (
-          <RecipeTag recipe={recipe} />
-        ))}
+        {filteredRecipes
+          .map(recipe => (
+            <RecipeTag recipe={recipe} />
+          ))}
       </div>
     </div>
   );
