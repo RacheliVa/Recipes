@@ -3,13 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import styles from '../recipeDetails.module.css';
 import  recipesService  from '@/services/recipes'
+import { Recipe } from "@/types";
 
-interface Recipe {
-    title: string;
-    ingredients: string;
-    preparationTime: number;
-    image: string;
-}
 
 const RecipeDetails: React.FC = () => {
     const pathname = usePathname();
@@ -43,11 +38,11 @@ const RecipeDetails: React.FC = () => {
 
     return (
         <div className={styles.recipeDetails}>
-            <img src={recipe.image} alt={recipe.title} className={styles.recipeImage} />
+            <img src={recipe.image_url} alt={recipe.name} className={styles.recipeImage} />
             <div className={styles.recipeInfo}>
-                <h2 className={styles.recipeTitle}>{recipe.title}</h2>
+                <h2 className={styles.recipeTitle}>{recipe.name}</h2>
                 <p className={styles.ingredients}><strong>Ingredients:</strong> {recipe.ingredients}</p>
-                <p className={styles.preparationTime}><strong>Preparation Time:</strong> {recipe.preparationTime} minutes</p>
+                <p className={styles.preparationTime}><strong>Instructions:</strong> {recipe.instructions} </p>
             </div>
         </div>
     );
