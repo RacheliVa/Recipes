@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Category } from '@/types';
 import categoriesService from '@/services/categories';
+import useCategoryOptions from '@/categoriesZustand'
 
 interface CategoriesProps {
     setCategory: (category: number) => void;
@@ -8,22 +9,29 @@ interface CategoriesProps {
 
 const Categories: React.FC<CategoriesProps> = ({ setCategory }) => {
 
-    const [categoriesArray, setCategoriesArray] = useState<Category[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const { categories, initializeCategories } = useCategoryOptions();
 
     useEffect(() => {
-        const fetchData = async () => {
-            const data = await categoriesService.getAllCategories();
-            setCategoriesArray(data);
+        setIsLoading(true);
+        try{
+            initializeCategories();
         }
-        fetchData();
+        catch(error){
+            console.error(error);
+        }
+        finally{
+            setIsLoading(false);
+        }
     }, []);
 
     const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedCategoryName = event.target.value;
-        if(selectedCategoryName == '0'){
+        if (selectedCategoryName == '0') {
             setCategory(0);
         }
-        const selectedCategory = categoriesArray.find(
+        const selectedCategory = categories.find(
             category => category.category_name === selectedCategoryName
         );
         if (selectedCategory) {
@@ -35,7 +43,7 @@ const Categories: React.FC<CategoriesProps> = ({ setCategory }) => {
         <div>
             <select name="categories" id="categories" onChange={handleCategoryChange}>
                 <option value={0}>all</option>
-                {categoriesArray.map(category => {
+                {!isLoading && categories.map(category => {
                     return <option key={category.category_id} value={category.category_name}>
                         {category.category_name}</option>;
                 }
