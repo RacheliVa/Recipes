@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getAllDocuments, insertDocument, deleteDocument, getDatabaseClient } from "@/services/mongo";
 import { Recipe } from "@/types";
 
-
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
@@ -23,7 +22,6 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const client = await getDatabaseClient();
-
   try {
     const newRecipe = await request.json();
     const insertedRecipeId = await insertDocument(client, 'recipes', newRecipe);

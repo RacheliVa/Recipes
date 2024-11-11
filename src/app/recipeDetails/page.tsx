@@ -1,11 +1,10 @@
 "use client"
+import React from 'react'
 
-const RecipePage = () => {
-    return (
-        <div>
-            hi
-        </div>
-    );
-};
+function page() {
+  return (
+    <div>page</div>
+  )
+}
 
-export default RecipePage;
+export default page;

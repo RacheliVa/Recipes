@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { getDocumentById, getDatabaseClient }  from "@/services/mongo"
 
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: any }) {
     const client = await getDatabaseClient();
-    const id = params.id;
+    const { id } = await params;
 
     if (!id) return NextResponse.json({ message: 'Recipe ID not provided' }, { status: 400 });
 
