@@ -16,7 +16,6 @@ const RecipeTag: React.FC<RecipeTagProps> = ({ recipe, showRecipePopup }) => {
             <div className={styles.recipeDetails}>
                 <h2 className={styles.recipeTitle}>{recipe.name}</h2>
                 <p className={styles.ingredients}><strong>Ingredients:</strong> {recipe.ingredients}</p>
-
             </div>
             <button onClick={() => showRecipePopup(recipe)}>View Recipe</button>
         </div>
