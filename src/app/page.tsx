@@ -5,7 +5,7 @@ import recipesService from '@/services/recipes';
 import { Recipe } from "@/types";
 import RecipeTag from "@/components/RecipeTag/RecipeTag";
 import Categories from "@/components/Categories/Categories";
-import styles from './home.module.css';
+// import styles from '../home.module.css';
 import RecipePopup from '@/components/RecipePopup/RecipePopup';
 
 export default function Home() {
@@ -67,7 +67,7 @@ export default function Home() {
         placeholder="Search..."
         value={filterInput}
         onChange={e => setFilterInput(e.target.value)} />
-      {!isLoading && <div className={styles.recipesList}>
+      {!isLoading && <div >
         {filteredRecipes
           .map(recipe => (
             <RecipeTag key={recipe._id} showRecipePopup ={showRecipePopupF} recipe={recipe} />
